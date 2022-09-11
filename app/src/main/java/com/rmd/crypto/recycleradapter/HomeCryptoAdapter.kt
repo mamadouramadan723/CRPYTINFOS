@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmd.crypto.R
-import com.rmd.crypto.constant.Constants
 import com.rmd.crypto.databinding.RowHomeCryptoBinding
 import com.rmd.crypto.model.HomeCrypto
 import com.squareup.picasso.Picasso
@@ -44,8 +43,9 @@ class HomeCryptoAdapter : RecyclerView.Adapter<HomeCryptoAdapter.HomeCryptoViewH
             /**
              *  Picasso for async image loading
              */
+            val imageUrl = "https://s2.coinmarketcap.com/static/img/coins"
             Picasso.get()
-                .load(Constants.imageUrl + coin.symbol.toLowerCase() + ".png")
+                .load("$imageUrl/64x64/${coin.id}.png")
                 .resize(150, 150).into(binding.coinIcon)
 
             /**
