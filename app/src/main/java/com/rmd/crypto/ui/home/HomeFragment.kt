@@ -1,5 +1,6 @@
 package com.rmd.crypto.ui.home
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,6 +49,10 @@ class HomeFragment : Fragment() {
         binding.homeCryptoRvw.layoutManager = layoutManagerHomeCrypto
         binding.homeCryptoRvw.adapter = homeCryptoAdapter
 
+        binding.swipeLayout.setOnRefreshListener {
+            Toast.makeText(context, "Refreshing", Toast.LENGTH_SHORT).show()
+            refresh()
+        }
         getCoins()
     }
 
@@ -135,5 +140,15 @@ class HomeFragment : Fragment() {
         queue.add(jsonObjectRequest)
     }
 
+    private fun refresh() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            parentFragmentManager.beginTransaction().detach(this).commitNow()
+            parentFragmentManager.beginTransaction().attach(this).commitNow()
+            binding.swipeLayout.isRefreshing = false
+        } else {
+            parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
+            binding.swipeLayout.isRefreshing = false
+        }
+    }
 
 }
