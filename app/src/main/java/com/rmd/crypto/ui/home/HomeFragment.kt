@@ -29,6 +29,19 @@ class HomeFragment : Fragment() {
         "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=USD"
 
     private var cryptoCoins: MutableList<HomeCrypto> = arrayListOf()
+    private var myCoins: MutableList<String> = arrayListOf(
+        "BTC",
+        "LUNA",
+        "LUNC",
+        "USTC",
+        "ETH",
+        "BNB",
+        "AXS",
+        "CAKE",
+        "ADA",
+        "ATOM",
+        "GMT"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -80,23 +93,26 @@ class HomeFragment : Fragment() {
                             val cryptoCoin = HomeCrypto()
 
                             val dataObj = dataArray.getJSONObject(i)
-                            val quote = dataObj.getJSONObject("quote")
-                            val usd = quote.getJSONObject("USD")
+                            val symbol = dataObj.getString("symbol")
+                            if (symbol in myCoins) {
+                                val quote = dataObj.getJSONObject("quote")
+                                val usd = quote.getJSONObject("USD")
 
-                            // adding all data to our array list.
-                            cryptoCoin.id = dataObj.getString("id")
-                            cryptoCoin.name = dataObj.getString("name")
-                            cryptoCoin.symbol = dataObj.getString("symbol")
-                            cryptoCoin.price = usd.getDouble("price")
-                            cryptoCoin.percent_change_1h = usd.getDouble("percent_change_1h")
-                            cryptoCoin.percent_change_24h = usd.getDouble("percent_change_24h")
-                            cryptoCoin.percent_change_7d = usd.getDouble("percent_change_7d")
+                                // adding all data to our array list.
+                                cryptoCoin.id = dataObj.getString("id")
+                                cryptoCoin.name = dataObj.getString("name")
+                                cryptoCoin.symbol = symbol
+                                cryptoCoin.price = usd.getDouble("price")
+                                cryptoCoin.percent_change_1h = usd.getDouble("percent_change_1h")
+                                cryptoCoin.percent_change_24h = usd.getDouble("percent_change_24h")
+                                cryptoCoin.percent_change_7d = usd.getDouble("percent_change_7d")
 
-                            cryptoCoins.add(cryptoCoin)
-                            val stringBuilder = StringBuilder()
+                                cryptoCoins.add(cryptoCoin)
+                                val stringBuilder = StringBuilder()
 
-                            stringBuilder.append("${cryptoCoins}")
-                            Log.d("+++---coin ${i} : ", "$stringBuilder")
+                                stringBuilder.append("${cryptoCoins}")
+                                Log.d("+++---coin ${i} : ", "$stringBuilder")
+                            }
 
 
                         }
