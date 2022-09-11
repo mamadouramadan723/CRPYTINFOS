@@ -10,4 +10,10 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="btc">BTC</string>
+    <string name="btc_bitcoin">BTC | Bitcoin</string>
+    <string name="_12_345">$ 12.345</string>
+    <string name="_1h_100">1h : 100%</string>
+    <string name="_7d_100">7d : 100%</string>
+    <string name="_1d_100">1d : 100%</string>
 </resources>
