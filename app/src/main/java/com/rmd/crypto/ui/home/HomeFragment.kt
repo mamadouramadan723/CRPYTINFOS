@@ -30,17 +30,14 @@ class HomeFragment : Fragment() {
 
     private var cryptoCoins: MutableList<HomeCrypto> = arrayListOf()
     private var myCoins: MutableList<String> = arrayListOf(
-        "BTC",
-        "LUNA",
         "LUNC",
+        "LUNA",
         "USTC",
-        "ETH",
-        "BNB",
-        "AXS",
-        "CAKE",
-        "ADA",
         "ATOM",
-        "GMT"
+        "MATIC",
+        "RVN",
+        "ETH",
+        "SOL"
     )
 
     override fun onCreateView(
@@ -121,7 +118,7 @@ class HomeFragment : Fragment() {
                         val stringBuilder = StringBuilder()
                         stringBuilder.append("$cryptoCoins")
                         Log.d("+++---coins : ", "$stringBuilder")
-                        homeCryptoAdapter.updateData(cryptoCoins)
+                        homeCryptoAdapter.updateData(cryptoCoins.sortedBy { it.percent_change_1h })
                     }
 
                     //ipInfos.ip = response.getString("ip")

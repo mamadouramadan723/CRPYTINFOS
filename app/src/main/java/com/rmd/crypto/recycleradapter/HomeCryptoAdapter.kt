@@ -33,12 +33,13 @@ class HomeCryptoAdapter : RecyclerView.Adapter<HomeCryptoAdapter.HomeCryptoViewH
         val coin = cryptoCoins[position]
 
         holder.itemView.apply {
-            val df = DecimalFormat("#.###")
+            val df1 = DecimalFormat("#.######")
+            val df2 = DecimalFormat("#.##")
             binding.coinNameAndSymbolTv.text =  "${coin.name} | ${coin.symbol}"
-            binding.priceUsdTv.text = "$ ${df.format(coin.price)}"
-            binding.oneHourVariationTv.text = "1h : ${df.format(coin.percent_change_1h)} %"
-            binding.oneDayVariationTv.text = "24h : ${df.format(coin.percent_change_24h)} %"
-            binding.oneWeekVariationTv.text = "7d : ${df.format(coin.percent_change_7d)} %"
+            binding.priceUsdTv.text = "$ ${df1.format(coin.price)}"
+            binding.oneHourVariationTv.text = "1h : ${df2.format(coin.percent_change_1h)} %"
+            binding.oneDayVariationTv.text = "24h : ${df2.format(coin.percent_change_24h)} %"
+            binding.oneWeekVariationTv.text = "7d : ${df2.format(coin.percent_change_7d)} %"
 
             /**
              *  Picasso for async image loading
