@@ -33,7 +33,7 @@ class HomeCryptoAdapter : RecyclerView.Adapter<HomeCryptoAdapter.HomeCryptoViewH
         val coin = cryptoCoins[position]
 
         holder.itemView.apply {
-            val df1 = DecimalFormat("#.######")
+            val df1 = DecimalFormat("#.###########")
             val df2 = DecimalFormat("#.##")
             binding.coinNameAndSymbolTv.text =  "${coin.name} | ${coin.symbol}"
             binding.priceUsdTv.text = "$ ${df1.format(coin.price)}"

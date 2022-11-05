@@ -25,20 +25,34 @@ class HomeFragment : Fragment() {
     private lateinit var homeCryptoAdapter: HomeCryptoAdapter
     private lateinit var layoutManagerHomeCrypto: LinearLayoutManager
 
-    private val apiUrl =
-        "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=USD"
 
     private var cryptoCoins: MutableList<HomeCrypto> = arrayListOf()
-    private var myCoins: MutableList<String> = arrayListOf(
+    private var myCoinsSymbols: MutableList<String> = arrayListOf(
         "LUNC",
-        "LUNA",
+        "QUACK",
         "USTC",
         "ATOM",
-        "MATIC",
-        "RVN",
-        "ETH",
-        "SOL"
+        "XEN",
+        "CHAMPS",
+        "APT",
+        "BNB",
+        "OSMO"
     )
+    private  var myCoinsName : MutableList<String> = arrayListOf(
+        "Terra Classic",
+        "TerraClassicUSD",
+        "Cosmos",
+        "XEN Crypto",
+        "RichQUACK.com",
+        "FIFA Champs",
+        "Aptos",
+        "BNB",
+        "Osmosis"
+    )
+    private val apiUrl =
+        "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=LUNC,QUACK,ATOM,USTC,XEN,CHAMPS,APT,BNB,OSMO"
+    //"https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=USD"
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -80,40 +94,38 @@ class HomeFragment : Fragment() {
                     // and setting it in variables
                     // extracting data from json.
 
-                    val dataArray = response?.getJSONArray("data")
+                    val dataObject = response?.getJSONObject("data")
 
-                    if (dataArray != null) {
+                    if (dataObject != null) {
                         cryptoCoins.clear()
 
+                        for (symbol in myCoinsSymbols){
+                            val dataArray = dataObject.getJSONArray(symbol)
 
-                        for (i in 0 until dataArray.length()) {
-                            val cryptoCoin = HomeCrypto()
+                            for (i in 0 until dataArray.length()){
+                                val cryptoCoin = HomeCrypto()
 
-                            val dataObj = dataArray.getJSONObject(i)
-                            val symbol = dataObj.getString("symbol")
-                            if (symbol in myCoins) {
-                                val quote = dataObj.getJSONObject("quote")
-                                val usd = quote.getJSONObject("USD")
+                                val dataObj = dataArray.getJSONObject(i)
+                                val name = dataObj.getString("name")
+                                if (name in myCoinsName){
+                                    val quote = dataObj.getJSONObject("quote")
+                                    val usd = quote.getJSONObject("USD")
 
-                                // adding all data to our array list.
-                                cryptoCoin.id = dataObj.getString("id")
-                                cryptoCoin.name = dataObj.getString("name")
-                                cryptoCoin.symbol = symbol
-                                cryptoCoin.price = usd.getDouble("price")
-                                cryptoCoin.percent_change_1h = usd.getDouble("percent_change_1h")
-                                cryptoCoin.percent_change_24h = usd.getDouble("percent_change_24h")
-                                cryptoCoin.percent_change_7d = usd.getDouble("percent_change_7d")
+                                    // adding all data to our array list.
+                                    cryptoCoin.id = dataObj.getString("id")
+                                    cryptoCoin.name = dataObj.getString("name")
+                                    cryptoCoin.symbol = symbol
+                                    cryptoCoin.price = usd.getDouble("price")
+                                    cryptoCoin.percent_change_1h = usd.getDouble("percent_change_1h")
+                                    cryptoCoin.percent_change_24h = usd.getDouble("percent_change_24h")
+                                    cryptoCoin.percent_change_7d = usd.getDouble("percent_change_7d")
 
-                                cryptoCoins.add(cryptoCoin)
-                                val stringBuilder = StringBuilder()
-
-                                stringBuilder.append("${cryptoCoins}")
-                                Log.d("+++---coin ${i} : ", "$stringBuilder")
+                                    cryptoCoins.add(cryptoCoin)
+                                }
                             }
-
-
                         }
-                        // notifying adapter on data change.
+
+                        //notifying adapter on data change.
 
                         val stringBuilder = StringBuilder()
                         stringBuilder.append("$cryptoCoins")
